@@ -1,6 +1,6 @@
 {
     "name": "codificar/templates",
-    "description": "Biblioteca para manipular temas.",
+    "description": "Biblioteca para gerenciar templates de email.",
     "authors": [{
         "name": "Álvaro Tavares",
         "email": "libs@codificar.com.br"
