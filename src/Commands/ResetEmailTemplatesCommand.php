@@ -24,21 +24,30 @@ class ResetEmailTemplatesCommand extends Command {
 	 *
 	 * @return mixed
 	 */
-	public function fire()
+	public function handle()
 	{
 		//Marcar todos como não usados
 		EmailTemplate::where('id', '>', '0')->update(['is_used' => false]);
 
-
-		$email_template = include '../Http/database/EmailTemplateData.php';
+		$email_template = include __DIR__ . '/../Http/database/EmailTemplateData.php';
 
 		foreach ($email_template as $email) {
-			EmailTemplate::updateOrCreate(["key" => $email["key"]], [
-				"subject" => $email["subject"],
-				"content" => $email["content"],
-				"sample" => $email["sample"],
-				"is_used" => 1
-			]);
+			$template = EmailTemplate::where('key',  $email["key"])->first();
+			if($template) {
+				$template->subject = $email["subject"];
+				$template->content = $email["content"];
+				$template->sample = $email["sample"];
+				$template->is_used = true;
+				$template->save();
+			} else {
+				EmailTemplate::create([
+					"key" => $email["key"],
+					"subject" => $email["subject"],
+					"content" => $email["content"],
+					"sample" => $email["sample"],
+					"is_used" => 1
+				]);
+			}
 		}
 	}
 }

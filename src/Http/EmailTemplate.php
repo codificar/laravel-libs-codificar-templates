@@ -28,7 +28,7 @@ class EmailTemplate extends \Eloquent {
 		try{
 			$sendgrid = new SendGrid($key);
 
-			$app_name = Settings::where('key', '=', 'website_title')->first();
+			$app_name = \Settings::where('key', '=', 'website_title')->first();
 			$from = new SendGrid\Email($app_name->value, $mailFrom);
 			$to = new SendGrid\Email(null, $mailTo);
 			$content = new SendGrid\Content("text/html", $message_body);
@@ -55,7 +55,7 @@ class EmailTemplate extends \Eloquent {
 
 		$emailFrom = $this->from;
 		if (!$emailFrom) {
-			$emailFrom = Settings::getAdminEmail();
+			$emailFrom = \Settings::getAdminEmail();
 		}
 
 		if(empty($vars)) {
@@ -69,7 +69,7 @@ class EmailTemplate extends \Eloquent {
 		$copyEmails = $this->copy_emails;
 
 		return Mail::send([], [], function ($message) use ($emailContent, $emailTo, $subject, $replyTo, $copyEmails, $emailFrom) {
-			$message->from($emailFrom, Settings::findByKey('website_title'));
+			$message->from($emailFrom, \Settings::findByKey('website_title'));
 			$message->to($emailTo)->subject($subject);
 			if ($replyTo)
 				$message->replyTo($replyTo);
@@ -106,11 +106,11 @@ class EmailTemplate extends \Eloquent {
 	}
 
 	public static function sendByAmazonSes($body, $subject, $from, $to){
-		$amazon_ses_servername = Settings::findByKey('amazon_ses_servername');
-		$amazon_ses_username = Settings::findByKey('amazon_ses_username');
-	 	$amazon_ses_password = Settings::findByKey('amazon_ses_password');
-		$amazon_ses_port = Settings::findByKey('amazon_ses_port');
-		$amazon_ses_tls = Settings::findByKey('amazon_ses_tls');
+		$amazon_ses_servername = \Settings::findByKey('amazon_ses_servername');
+		$amazon_ses_username = \Settings::findByKey('amazon_ses_username');
+	 	$amazon_ses_password = \Settings::findByKey('amazon_ses_password');
+		$amazon_ses_port = \Settings::findByKey('amazon_ses_port');
+		$amazon_ses_tls = \Settings::findByKey('amazon_ses_tls');
 
 		$mail = new PHPMailer;
 		$mail->isSMTP();                                      // Set mailer to use SMTP
@@ -121,7 +121,7 @@ class EmailTemplate extends \Eloquent {
 		$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
 		$mail->Port = $amazon_ses_port;                                   // TCP port to connect to
 
-		$app_name = Settings::where('key', '=', 'website_title')->first();
+		$app_name = \Settings::where('key', '=', 'website_title')->first();
 		$mail->setFrom($from, $app_name->value);
 		$mail->addAddress($to);
 		$mail->isHTML(true);                                  // Set email format to HTML
