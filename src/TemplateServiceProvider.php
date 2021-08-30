@@ -1,6 +1,7 @@
 <?php
 namespace Codificar\Templates;
 use Illuminate\Support\ServiceProvider;
+use Codificar\Templates\Commands\ResetEmailTemplatesCommand;
 
 class TemplateServiceProvider extends ServiceProvider {
 
@@ -17,6 +18,12 @@ class TemplateServiceProvider extends ServiceProvider {
 		$this->publishes([
 			__DIR__ . '/../public' => public_path('vendor/codificar/email_templates'),
 		], 'public_vuejs_libs');
+
+		if ($this->app->runningInConsole()) {
+			$this->commands([
+				ResetEmailTemplatesCommand::class
+			]);
+		}
 	}
 
 	public function register()

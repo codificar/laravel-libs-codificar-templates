@@ -20,6 +20,7 @@ export default {
 				/<\?php.*?\?>/g,  // Protect php code
 				/{{.*}}/g
 			],
+			cleaup: false,
 			tinyToolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 			tinyOptions: {
 				theme: "modern",
