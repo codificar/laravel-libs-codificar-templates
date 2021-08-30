@@ -16,7 +16,7 @@ class EmailTemplateController extends Controller {
 		$emailtemplate = EmailTemplate::paginate(50);
 		$title = ucwords(trans('email_template.email_template')); /* 'Email View' */
 
-		return view('template::list')
+		return view('templates::list')
 			->with('title', $title)
 			->with('page', 'emails')
 			->with('emailtemplate', $emailtemplate);
@@ -46,7 +46,7 @@ class EmailTemplateController extends Controller {
 		}
 
 		$title = ucwords(trans('email_template.edit')); /* 'Email View' */
-		return view('template::edit')
+		return view('templates::edit')
 			->with('title', $title)
 			->with('id', $id);
 	}

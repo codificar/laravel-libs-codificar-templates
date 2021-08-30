@@ -59,7 +59,7 @@ Vue.prototype.currency_format = (number, currency) => {
 
 //Main vue instance
 new Vue({
-	el: '#ThemeVue',
+	el: '#VueJS',
 
 	components: {
 		TemplateEdit

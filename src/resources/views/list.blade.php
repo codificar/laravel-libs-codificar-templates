@@ -60,4 +60,6 @@
 		</div>
 	</div>
 </div>
+<script src="/js/lang.trans/detail"> </script>
+<script src="/js/lang/email_template"> </script>
 @stop

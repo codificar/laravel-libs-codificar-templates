@@ -26,13 +26,10 @@
 	}
 </style>
 <!-- Row -->
-<div id="VueJs">
-	<email-edit id="{{$id}}"> </email-edit>
+<div id="VueJS">
+	<template-edit id="{{$id}}"> </template-edit>
 </div>
 <!-- Row -->
-@stop
-
-@section('javascripts')
 
 <script>
 	window.routes = {
@@ -44,8 +41,10 @@
 		test: "{{route('EmailTemplateTestApi')}}"
 	}
 </script>
+
+<script src="/js/lang.trans/detail"> </script>
 <script src="/js/lang/email_template"> </script>
-<script src="{{asset(mix('js/app.js', 'vendor/codificar_templates'))}}"> </script>
+<script src="{{asset(mix('js/app.js', 'vendor/codificar/email_templates'))}}"> </script>
 <!-- <script src="/plugins/tinymce/tinymce.min.js"></script>
 <script src="/plugins/tinymce/tinymce.ini.js"></script> -->
 
