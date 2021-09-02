@@ -2,11 +2,8 @@
 
 namespace Codificar\Templates\Http\Requests;
 
-
-use Illuminate\Validation\Rule;
-use Illuminate\Contracts\Validation\Validator;
+use Codificar\Templates\Http\Controllers\EmailTemplateController;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class EmailTemplateTestApiRequest extends FormRequest
 {
@@ -24,7 +21,9 @@ class EmailTemplateTestApiRequest extends FormRequest
 	}
 
 	public function messages() {
-		return $this->messages;
+		return [
+			"valid.in" => trans('templates::email_template.fail')
+		];
 	}
 
 	/**
@@ -35,7 +34,18 @@ class EmailTemplateTestApiRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			//
+			'valid' => 'in:true'
 		];
+	}
+
+	protected function prepareForValidation()
+	{
+		$content = str_replace("&gt;", ">", $this->input('content'));
+		$content = str_replace("&lt;", "<", $content);
+		$valid = EmailTemplateController::verify($content, request()->sample);
+		$this->merge([
+			'content' => $content,
+			'valid' => $valid['success']
+		]);
 	}
 }

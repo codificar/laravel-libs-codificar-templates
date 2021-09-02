@@ -7,7 +7,9 @@ export default {
 	props: ['id',],
 	data() {
 		return {
-			template: {},
+			template: {
+				sample: {}
+			},
 			routes: {},
 			fields: [],
 			jsonError: false,
@@ -86,6 +88,18 @@ export default {
 			}).then(response => {
 				if(response.data.success) {
 					this.$swal('OK');
+				} else {
+					this.$swal('', response.data.message, 'error');
+				}
+			});
+		},
+		validate() {
+			axios.post(this.routes.validate, {
+				'content': this.template.content,
+				'sample': this.template.sample
+			}).then(response => {
+				if(response.data.success) {
+					this.$swal(response.data.message);
 				} else {
 					this.$swal('', response.data.message, 'error');
 				}
@@ -220,6 +234,11 @@ export default {
 										<div class="col">
 											<button type="button" @click="test" id="email-template-test" name="button" class="btn btn-warning btn-flat">
 												{{trans('email_template.test') }}
+											</button>
+										</div>
+										<div class="col">
+											<button type="button" id="validate" class="btn btn-info btn-flat btn-block" @click="validate">
+												{{trans('email_template.validate') }}
 											</button>
 										</div>
 										<div class="col">

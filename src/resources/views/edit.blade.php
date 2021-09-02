@@ -38,7 +38,8 @@
 		edit: "{{route('EmailTemplateEdit', $id)}}",
 		update: "{{route('EmailTemplateUpdate')}}",
 		delete: "{{route('EmailTemplateDelete', $id)}}",
-		test: "{{route('EmailTemplateTestApi')}}"
+		test: "{{route('EmailTemplateTestApi')}}",
+		validate: "{{route('EmailTemplateValidateApi')}}"
 	}
 </script>
 

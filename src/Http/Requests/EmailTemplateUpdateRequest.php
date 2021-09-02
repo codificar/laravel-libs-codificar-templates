@@ -2,6 +2,7 @@
 
 namespace Codificar\Templates\Http\Requests;
 
+use Codificar\Templates\Http\Controllers\EmailTemplateController;
 use Codificar\Templates\Http\EmailTemplate;
 
 use Illuminate\Validation\Rule;
@@ -24,7 +25,9 @@ class EmailTemplateUpdateRequest extends FormRequest
 	}
 
 	public function messages() {
-		return $this->messages;
+		return [
+			"valid.in" => trans('templates::email_template.fail')
+		];
 	}
 
 	/**
@@ -52,6 +55,7 @@ class EmailTemplateUpdateRequest extends FormRequest
 		return [
 			'key' => ['required', Rule::unique('email_template')->ignore($this->email_template ? $this->email_template->id : null)],
 			'subject' => 'required',
+			'valid' => 'in:true'
 		];
 	}
 
@@ -61,9 +65,11 @@ class EmailTemplateUpdateRequest extends FormRequest
 
 		$content = str_replace("&gt;", ">", $this->input('content'));
 		$content = str_replace("&lt;", "<", $content);
+		$valid = EmailTemplateController::verify($content, request()->sample);
 		$this->merge([
 			'email_template' => $email_template,
-			'content' => $content
+			'content' => $content,
+			'valid' => $valid['success']
 		]);
 	}
 }

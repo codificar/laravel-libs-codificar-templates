@@ -12,7 +12,7 @@
 	</div>
 	<div class="col-md-6 col-4 align-self-center">
 		@if(AuthUtils::hasPermissionByUrl('/admin/email_template/edit/0'))
-		<button onclick="location.href='{{ URL::Route('EmailTemplateEdit', 0) }}'" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> {{trans('email_template.new_email')}}</button>
+		<button onclick="location.href='{{ URL::Route('EmailTemplateEdit', 0) }}'" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> {{trans('templates::email_template.new_email')}}</button>
 		@endif
 	</div>
 </div>
@@ -27,15 +27,15 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
-						<th>{{ trans('email_template.id') }}</th>
-						<th>{{ trans('email_template.key') }}</th>
-						<th>{{ trans('email_template.copy_emails') }}</th>
-						<th>{{ trans('email_template.actions') }}</th>
+						<th>{{ trans('templates::email_template.id') }}</th>
+						<th>{{ trans('templates::email_template.key') }}</th>
+						<th>{{ trans('templates::email_template.copy_emails') }}</th>
+						<th>{{ trans('templates::email_template.actions') }}</th>
 					</tr>
 					@foreach ($emailtemplate as $emailtemplate)
 					<tr>
 					@php
-						$notUsedOpen = $emailtemplate->is_used ? '' : '<abbr title="'.trans('email_template.not_used').'">';
+						$notUsedOpen = $emailtemplate->is_used ? '' : '<abbr title="'.trans('templates::email_template.not_used').'">';
 						$notUsedClose = $emailtemplate->is_used ? '' : '</abbr>'
 					@endphp
 						<td>{{ $emailtemplate->id }}</td>
@@ -44,12 +44,12 @@
 						<td>
 							<form action="email_template/test" method="POST" class="form form-inline">
 							<input type="hidden" name="id" value="{{$emailtemplate->id}}">
-								<button type="submit" class="btn btn-warning mr-2" @if(!$emailtemplate->is_used) disabled @endif>{{trans('email_template.test')}}</button>
+								<button type="submit" class="btn btn-warning mr-2" @if(!$emailtemplate->is_used) disabled @endif>{{trans('templates::email_template.test')}}</button>
 								@if(AuthUtils::hasPermissionByUrl('EmailTemplateEdit'))
-								<a id="edit" href="{{ URL::Route('EmailTemplateEdit', $emailtemplate->id) }}" class="btn btn-success mr-2">{{trans('email_template.edit')}}</a>
+								<a id="edit" href="{{ URL::Route('EmailTemplateEdit', $emailtemplate->id) }}" class="btn btn-success mr-2">{{trans('templates::email_template.edit')}}</a>
 								@endif
 								@if(AuthUtils::hasPermissionByUrl('EmailTemplateDelete'))
-								<a id="delete" href="{{ URL::Route('EmailTemplateDelete', $emailtemplate->id) }}" class="btn btn-danger">{{trans('email_template.delete')}}</a>
+								<a id="delete" href="{{ URL::Route('EmailTemplateDelete', $emailtemplate->id) }}" class="btn btn-danger">{{trans('templates::email_template.delete')}}</a>
 								@endif
 							</form>
 						</td>

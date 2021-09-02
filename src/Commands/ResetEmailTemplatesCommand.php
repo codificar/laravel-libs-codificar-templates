@@ -29,7 +29,7 @@ class ResetEmailTemplatesCommand extends Command {
 		//Marcar todos como não usados
 		EmailTemplate::where('id', '>', '0')->update(['is_used' => false]);
 
-		$email_template = include __DIR__ . '/../Http/database/EmailTemplateData.php';
+		$email_template = include __DIR__ . '/../Http/Database/EmailTemplateData.php';
 
 		foreach ($email_template as $email) {
 			$template = EmailTemplate::where('key',  $email["key"])->first();

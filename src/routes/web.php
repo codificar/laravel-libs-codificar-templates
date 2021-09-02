@@ -11,12 +11,13 @@ Route::group(["prefix" => "/admin/libs/email_template", "before" => "hasPermissi
 	Route::get('/delete/{id}', array('as' => 'EmailTemplateDelete', 'uses' => EmailTemplateController::class.'@delete_template'));
 	Route::post('/test', ['as' => 'EmailTemplateTest', 'uses' => EmailTemplateController::class.'@test']);
 	Route::post('/api/test', ['as' => 'EmailTemplateTestApi', 'uses' => EmailTemplateController::class.'@testApi']);
+	Route::post('/api/validate', ['as' => 'EmailTemplateValidateApi', 'uses' => EmailTemplateController::class.'@validate']);
 	Route::any('/make_migration', ['as' => 'EmailTemplateMigration', 'uses' => EmailTemplateController::class.'@makeSeederDataAll']);
 });
 
 Route::get('/js/lang/email_template', function(){
     header('Content-Type: text/javascript');
-    $template = require __DIR__ . '/../translations/'.config('app.locale').'/email_templates.php';
+    $template = require __DIR__ . '/../translations/'.config('app.locale').'/email_template.php';
     return ('window.lang.email_template = ' . json_encode($template) . ';');
     exit();
 });

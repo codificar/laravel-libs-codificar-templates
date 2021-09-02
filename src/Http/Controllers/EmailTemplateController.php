@@ -88,6 +88,27 @@ class EmailTemplateController extends Controller {
 
 	}
 
+	public static function verify($content, $vars)
+	{
+		try {
+			bladeCompile($content, ['vars' => $vars]);
+			return [
+				"success" => true,
+				"message" => trans('templates::email_template.success')
+			];
+		} catch (\Exception $e) {
+			return [
+				"success" => false,
+				"message" => trans('templates::email_template.fail')
+			];
+		}
+	}
+
+	public function validate()
+	{
+		return self::verify(request()->content, request()->sample);
+	}
+
 	public function test()
 	{
 		$template = EmailTemplate::findOrFail(request()->get('id'));
@@ -120,7 +141,7 @@ class EmailTemplateController extends Controller {
 
 	public function makeSeederDataAll()
 	{
-		$path = '../database/EmailTemplateData.php';
+		$path = '../Database/EmailTemplateData.php';
 		$file = fopen($path, 'w');
 		try {
 			fwrite($file, "<?php\n\n\$array = [];\n");

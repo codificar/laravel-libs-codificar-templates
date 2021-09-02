@@ -27,4 +27,11 @@ return [
 	'test'				=> 'Testar',
 	'save_change'		=> 'Salvar mudanças',
 
+	'list'				=> 'Listar templates de email',
+	'home'				=> 'Início',
+	'validate'			=> 'Validar',
+
+	'fail'				=> 'Existe um erro no template',
+	'success'			=> 'Não há erros no template',
+
 ];
