@@ -26,7 +26,7 @@ class TemplateServiceProvider extends ServiceProvider {
 		}
 	}
 
-	public function register()/
+	public function register()
 	{
 
 	}
