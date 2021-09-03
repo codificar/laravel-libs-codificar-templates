@@ -12,7 +12,7 @@
 	</div>
 	<div class="col-md-6 col-4 align-self-center">
 		@if(AuthUtils::hasPermissionByUrl('/admin/email_template/edit/0'))
-		<button onclick="location.href='{{ URL::Route('EmailTemplateEdit', 0) }}'" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> {{trans('templates::email_template.new_email')}}</button>
+		<button onclick="location.href='{{ URL::Route('EmailTemplateEdit', 0) }}'" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> {{trans('templates::email_template.new')}}</button>
 		@endif
 	</div>
 </div>

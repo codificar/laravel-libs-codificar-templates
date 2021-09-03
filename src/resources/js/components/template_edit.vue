@@ -103,6 +103,8 @@ export default {
 				} else {
 					this.$swal('', response.data.message, 'error');
 				}
+			}).catch(response => {
+				this.$swal('', response.data.message, 'error');
 			});
 		}
 	},

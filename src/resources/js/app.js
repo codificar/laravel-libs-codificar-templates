@@ -5,6 +5,8 @@ require('lodash');
 import Vue from 'vue';
 
 import TemplateEdit from './components/template_edit.vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
 
 //Recupera as configurações definidas em resources/assets/js/settings.php
 Vue.prototype.settings = (key) => {
