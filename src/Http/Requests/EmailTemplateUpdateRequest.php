@@ -15,6 +15,9 @@ class EmailTemplateUpdateRequest extends FormRequest
 	protected $authorize = true;
 	protected $messages = [];
 
+
+	private $valid;
+
 	/**
 	 * Determine if the user is authorized to make this request.
 	 *
@@ -55,7 +58,7 @@ class EmailTemplateUpdateRequest extends FormRequest
 		return [
 			'key' => ['required', Rule::unique('email_template')->ignore($this->email_template ? $this->email_template->id : null)],
 			'subject' => 'required',
-			'valid' => 'in:true'
+			'valid' => !$this->valid["success"] ? 'in:true' : ''
 		];
 	}
 
@@ -65,11 +68,11 @@ class EmailTemplateUpdateRequest extends FormRequest
 
 		$content = str_replace("&gt;", ">", $this->input('content'));
 		$content = str_replace("&lt;", "<", $content);
-		$valid = EmailTemplateController::verify($content, request()->sample);
+		$this->valid = EmailTemplateController::verify($content, request()->sample);
 		$this->merge([
 			'email_template' => $email_template,
 			'content' => $content,
-			'valid' => $valid['success']
+			'valid' => $this->valid['success']
 		]);
 	}
 }

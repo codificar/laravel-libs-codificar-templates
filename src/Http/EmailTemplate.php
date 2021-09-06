@@ -62,7 +62,7 @@ class EmailTemplate extends \Eloquent {
 			$vars = json_decode($this->sample, true);
 		}
 
-		$vars['logo'] = \Config::get('app.url') . \Theme::getLogoUrl();
+		$vars['logo'] = \Config::get('app.url') . Codificar\Themes\Http\Theme::getLogoUrl();
 		$vars['date'] = date('d/m/Y');
 
 		$emailContent = bladeCompile($this->getContent(), ['vars' => $vars]);

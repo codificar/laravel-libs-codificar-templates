@@ -129,7 +129,7 @@ class EmailTemplateController extends Controller {
 
 		try{
 			$template->test();
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			\Log::error($e->getMessage());
 			return [
 				'success' => false,

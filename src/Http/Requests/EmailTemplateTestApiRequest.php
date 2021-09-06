@@ -11,6 +11,9 @@ class EmailTemplateTestApiRequest extends FormRequest
 	protected $authorize = true;
 	protected $messages = [];
 
+
+	private $valid;
+
 	/**
 	 * Determine if the user is authorized to make this request.
 	 *
@@ -34,7 +37,7 @@ class EmailTemplateTestApiRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'valid' => 'in:true'
+			'valid' => !$this->valid["success"] ? 'in:true' : ''
 		];
 	}
 
@@ -42,10 +45,10 @@ class EmailTemplateTestApiRequest extends FormRequest
 	{
 		$content = str_replace("&gt;", ">", $this->input('content'));
 		$content = str_replace("&lt;", "<", $content);
-		$valid = EmailTemplateController::verify($content, request()->sample);
+		$this->valid = EmailTemplateController::verify($content, request()->sample);
 		$this->merge([
 			'content' => $content,
-			'valid' => $valid['success']
+			'valid' => $this->valid['success']
 		]);
 	}
 }

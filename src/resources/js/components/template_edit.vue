@@ -2,6 +2,7 @@
 import { LayoutPlugin, BTabs, BTab } from "bootstrap-vue";
 import tinymce from "vue-tinymce-editor";
 // import swal from "vue-sweetalert2";
+import Swal from 'sweetalert2';
 import axios from "axios";
 export default {
 	props: ['id',],
@@ -23,7 +24,7 @@ export default {
 				/{{.*}}/g
 			],
 			cleaup: false,
-			tinyToolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
+			tinyToolbar: "insert file undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 			tinyOptions: {
 				theme: "modern",
 				height: 300,
@@ -87,10 +88,12 @@ export default {
 				'sample': this.template.sample
 			}).then(response => {
 				if(response.data.success) {
-					this.$swal('OK');
+					this.alert('OK');
 				} else {
-					this.$swal('', response.data.message, 'error');
+					this.alert('', response.data.message, 'error');
 				}
+			}).catch(response => {
+				this.alert('', response.data.message, 'error');
 			});
 		},
 		validate() {
@@ -99,13 +102,16 @@ export default {
 				'sample': this.template.sample
 			}).then(response => {
 				if(response.data.success) {
-					this.$swal(response.data.message);
+					this.alert(response.data.message);
 				} else {
-					this.$swal('', response.data.message, 'error');
+					this.alert('', response.data.message, 'error');
 				}
 			}).catch(response => {
-				this.$swal('', response.data.message, 'error');
+				this.alert('', response.message, 'error');
 			});
+		},
+		alert(title, text, icon) {
+			Swal.fire({title, text, icon});
 		}
 	},
 	created() {
