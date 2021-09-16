@@ -13,11 +13,11 @@ class AlterEmailTeplateUrl extends Migration
 	 */
 	public function up()
 	{
-		$listUrl = \Settings::where('url', 'like', '%/admin/email_template%')->first();
+		$listUrl = \Permission::where('url', 'like', '%/admin/email_template%')->first();
 		$listUrl->url = '/admin/libs/email_template';
 		$listUrl->save();
 
-		$addUrl = \Settings::where('url', 'like', '%/admin/email_template/edit/0%')->first();
+		$addUrl = \Permission::where('url', 'like', '%/admin/email_template/edit/0%')->first();
 		$addUrl->url = '/admin/libs/email_template/edit/0';
 		$addUrl->save();
 	}
