@@ -13,13 +13,22 @@ class AlterEmailTeplateUrl extends Migration
 	 */
 	public function up()
 	{
+		Schema::table('email_template', function(Blueprint $table) {
+			$table->json('sample')->after('content')->nullable();
+			$table->boolean('is_used')->after('sample')->default(true);
+		});
+
 		$listUrl = \Permission::where('url', 'like', '%/admin/email_template%')->first();
-		$listUrl->url = '/admin/libs/email_template';
-		$listUrl->save();
+		if($listUrl) {
+			$listUrl->url = '/admin/libs/email_template';
+			$listUrl->save();
+		}
 
 		$addUrl = \Permission::where('url', 'like', '%/admin/email_template/edit/0%')->first();
-		$addUrl->url = '/admin/libs/email_template/edit/0';
-		$addUrl->save();
+		if($addUrl) {
+			$addUrl->url = '/admin/libs/email_template/edit/0';
+			$addUrl->save();
+		}
 	}
 
 	/**
@@ -29,6 +38,9 @@ class AlterEmailTeplateUrl extends Migration
 	 */
 	public function down()
 	{
-
+		Schema::table('email_template', function(Blueprint $table) {
+			$table->dropColumn('sample');
+			$table->dropColumn('is_used');
+		});
 	}
 }
