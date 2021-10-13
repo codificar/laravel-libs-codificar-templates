@@ -91,28 +91,48 @@ class EmailTemplateController extends Controller {
 	public static function verify($content, $vars)
 	{
 		try {
+			if(!isset($vars['date'])) {
+				$vars['date'] = today();
+			}
+			if(!isset($vars['logo'])) {
+				$vars['logo'] = \Codificar\Themes\Http\Theme::getLogo();
+			}
 			bladeCompile($content, ['vars' => $vars]);
 			return [
 				"success" => true,
 				"message" => trans('templates::email_template.success')
 			];
 		} catch (\Exception $e) {
+			$message = $e->getMessage();
+			if(str_starts_with($message, 'Undefined index: ')) {
+				$error = '';
+				$message = trans('templates::email_template.undefined', ['variable' => str_replace('Undefined index: ', '', $message)]);
+			} else {
+				$error = $message;
+				$message = trans('templates::email_template.fail');
+			}
 			return [
 				"success" => false,
-				"message" => trans('templates::email_template.fail')
+				"message" => $message,
+				"error" => $error
 			];
 		}
 	}
 
 	public function validate()
 	{
-		return self::verify(request()->content, request()->sample);
+		return self::verify(request()->content, json_decode(request()->sample, true));
 	}
 
 	public function test()
 	{
 		$template = EmailTemplate::findOrFail(request()->get('id'));
-		$template->test();
+		try{
+			$template->test();
+		} catch(\Exception $e) {
+			\Log::error($e->getMessage());
+			return redirect()->route('EmailTemplates')->withErrors([$e->getMessage()]);
+		}
 		return redirect()->route('EmailTemplates');
 	}
 

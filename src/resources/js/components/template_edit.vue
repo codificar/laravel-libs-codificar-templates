@@ -45,7 +45,7 @@ export default {
 			axios.post(this.routes.update, this.template).then(response => {
 				this.window.location.href = this.routes.list;
 			}).catch(error => {
-				console.error(error);
+				this.alert('', this.joinErrors(error.response.data.errors), 'error');
 			});
 		},
 		addNewField() {
@@ -92,8 +92,8 @@ export default {
 				} else {
 					this.alert('', response.data.message, 'error');
 				}
-			}).catch(response => {
-				this.alert('', response.data.message, 'error');
+			}).catch(error => {
+				this.alert('', this.joinErrors(error.response.data.errors), 'error');
 			});
 		},
 		validate() {
@@ -106,9 +106,17 @@ export default {
 				} else {
 					this.alert('', response.data.message, 'error');
 				}
-			}).catch(response => {
-				this.alert('', response.message, 'error');
+			}).catch(error => {
+
+				this.alert('', this.joinErrors(error.response.data.errors), 'error');
 			});
+		},
+		joinErrors(errors) {
+			let string = '';
+			for (let error in errors) {
+				string += errors[error].join(';') + '\n';
+			}
+			return string;
 		},
 		alert(title, text, icon) {
 			Swal.fire({title, text, icon});

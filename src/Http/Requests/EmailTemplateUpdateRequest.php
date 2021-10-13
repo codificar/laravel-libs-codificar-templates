@@ -29,25 +29,10 @@ class EmailTemplateUpdateRequest extends FormRequest
 
 	public function messages() {
 		return [
-			"valid.in" => trans('templates::email_template.fail')
+			"valid.in" => $this->valid['message']
 		];
 	}
 
-	/**
-	 * Retorna um json caso a validação falhe.
-	 *
-	 * @throws HttpResponseException
-	 * @return json
-	 */
-	protected function failedValidation(Validator $validator) {
-		throw new HttpResponseException(
-			response()->json([
-				'success' => false,
-				'errors' => $validator->errors()->all(),
-				'error_code' => \ApiErrors::REQUEST_FAILED
-			])
-		);
-	}
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
@@ -68,7 +53,7 @@ class EmailTemplateUpdateRequest extends FormRequest
 
 		$content = str_replace("&gt;", ">", $this->input('content'));
 		$content = str_replace("&lt;", "<", $content);
-		$this->valid = EmailTemplateController::verify($content, request()->sample);
+		$this->valid = EmailTemplateController::verify($content, json_decode(request()->sample, true));
 		$this->merge([
 			'email_template' => $email_template,
 			'content' => $content,

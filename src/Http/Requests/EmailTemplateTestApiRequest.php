@@ -25,7 +25,7 @@ class EmailTemplateTestApiRequest extends FormRequest
 
 	public function messages() {
 		return [
-			"valid.in" => trans('templates::email_template.fail')
+			"valid.in" => $this->valid['message']
 		];
 	}
 
@@ -45,7 +45,7 @@ class EmailTemplateTestApiRequest extends FormRequest
 	{
 		$content = str_replace("&gt;", ">", $this->input('content'));
 		$content = str_replace("&lt;", "<", $content);
-		$this->valid = EmailTemplateController::verify($content, request()->sample);
+		$this->valid = EmailTemplateController::verify($content, json_decode(request()->sample, true));
 		$this->merge([
 			'content' => $content,
 			'valid' => $this->valid['success']
