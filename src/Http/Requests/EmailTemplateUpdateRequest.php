@@ -29,7 +29,7 @@ class EmailTemplateUpdateRequest extends FormRequest
 
 	public function messages() {
 		return [
-			"valid.in" => $this->valid['message']
+			//"valid.in" => $this->valid['message']
 		];
 	}
 
@@ -43,7 +43,7 @@ class EmailTemplateUpdateRequest extends FormRequest
 		return [
 			'key' => ['required', Rule::unique('email_template')->ignore($this->email_template ? $this->email_template->id : null)],
 			'subject' => 'required',
-			'valid' => !$this->valid["success"] ? 'in:true' : ''
+			//'valid' => !$this->valid["success"] ? 'in:true' : ''
 		];
 	}
 
@@ -53,11 +53,11 @@ class EmailTemplateUpdateRequest extends FormRequest
 
 		$content = str_replace("&gt;", ">", $this->input('content'));
 		$content = str_replace("&lt;", "<", $content);
-		$this->valid = EmailTemplateController::verify($content, json_decode(request()->sample, true));
+		//$this->valid = EmailTemplateController::verify($content, json_decode(request()->sample, true));
 		$this->merge([
 			'email_template' => $email_template,
 			'content' => $content,
-			'valid' => $this->valid['success']
+			//'valid' => $this->valid['success']
 		]);
 	}
 }

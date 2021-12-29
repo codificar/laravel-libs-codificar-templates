@@ -138,6 +138,30 @@ class EmailTemplate extends \Eloquent {
 		}
 	}
 
+	private function getSample() {
+		$template=$this;
+		$variaveis_fixas = ['date', 'logo'];
+		preg_match_all('/\$vars\[\'([^\']*)\'\]/', $template->content, $vars);
+
+		if($template->sample) {
+			$current_sample = json_decode($template->sample);
+		} else {
+			$current_sample = [];
+		}
+
+		$sample_array = [];
+		foreach ($vars[1] as $var) {
+			if(!in_array($var, $variaveis_fixas)) {
+				if(isset($current_sample->$var)) {
+					$sample_array[$var] = $current_sample->$var;
+				} else {
+					$sample_array[$var] = "[Undefined Test Variable]";
+				}
+			}
+		}
+
+		return $sample_array;
+	}
 
 	public function test()
 	{
@@ -147,7 +171,7 @@ class EmailTemplate extends \Eloquent {
 		// 	\Log::error($e->getMessage());
 		// }
 		\Log::info('Email de teste ' . $this->key . ' ' . $this->sample);
-		$this->send(json_decode($this->sample, true), 'teste@codificar.com.br');
+		$this->send($this->getSample(), 'teste@codificar.com.br');
 		// self::SendByKey($this->key, $vars, 'test@codificar.com');
 	}
 }

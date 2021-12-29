@@ -2,6 +2,7 @@
 namespace Codificar\Templates;
 use Illuminate\Support\ServiceProvider;
 use Codificar\Templates\Commands\ResetEmailTemplatesCommand;
+use Codificar\Templates\Commands\FillSamples;
 
 class TemplateServiceProvider extends ServiceProvider {
 
@@ -21,7 +22,8 @@ class TemplateServiceProvider extends ServiceProvider {
 
 		if ($this->app->runningInConsole()) {
 			$this->commands([
-				ResetEmailTemplatesCommand::class
+				ResetEmailTemplatesCommand::class,
+				FillSamples::class
 			]);
 		}
 	}

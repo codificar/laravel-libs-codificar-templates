@@ -33,6 +33,7 @@ return [
 
 	'fail'				=> 'Existe um erro no template',
 	'success'			=> 'Não há erros no template',
-	'undefined'			=> 'Variável não definidia: :variable'
+	'undefined'			=> 'Variável não definida: :variable',
+	'test_successfull'	=> 'Teste bem sucedido',
 
 ];
