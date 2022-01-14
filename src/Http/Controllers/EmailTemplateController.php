@@ -133,7 +133,7 @@ class EmailTemplateController extends Controller {
 			\Log::error($e->getMessage());
 			return redirect()->route('EmailTemplates')->withErrors([$e->getMessage()]);
 		}
-		return redirect()->route('EmailTemplates')->with(['success' => trans('templates::test_successfull')]);
+		return redirect()->route('EmailTemplates')->with(['success' => trans('templates::email_template.test_successfull')]);
 	}
 
 	public function testApi(EmailTemplateTestApiRequest $request)

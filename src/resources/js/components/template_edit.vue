@@ -1,8 +1,9 @@
 <script>
-import { LayoutPlugin, BTabs, BTab } from "bootstrap-vue";
+import { LayoutPlugin, BTabs, BTab, BAlert } from "bootstrap-vue";
 import tinymce from "vue-tinymce-editor";
-// import swal from "vue-sweetalert2";
+//import swal from "vue-sweetalert2";
 import Swal from 'sweetalert2';
+//import Vue from 'vue';
 import axios from "axios";
 export default {
 	props: ['id',],
@@ -34,18 +35,21 @@ export default {
 				valid_children: '+head[style]',
 				extended_valid_elements: '+*[*]',
 				valid_elements: '+*[*]',
-			}
+			},
+			message: "Teste de alerta",
+			type_message: "danger",
+			showAlert: false
 		}
 	},
 	components: {
-		LayoutPlugin, BTabs, BTab, tinymce
+		LayoutPlugin, BTabs, BTab, BAlert, tinymce
 	},
 	methods: {
 		submitForm() {
 			axios.post(this.routes.update, this.template).then(response => {
 				this.window.location.href = this.routes.list;
 			}).catch(error => {
-				this.alert('', this.joinErrors(error.response.data.errors), 'error');
+				this.run_alert('', this.joinErrors(error.response.data.errors), 'danger');
 			});
 		},
 		addNewField() {
@@ -82,33 +86,46 @@ export default {
 			}
 		},
 		test() {
+			this.showAlert = false;
 			axios.post(this.routes.test, {
 				'id': this.template.id,
 				'content': this.template.content,
 				'sample': this.template.sample
 			}).then(response => {
 				if(response.data.success) {
-					this.alert('OK');
+					this.run_alert('', this.trans('email_template.test_successfull'), 'success');
 				} else {
-					this.alert('', response.data.message, 'error');
+					this.run_alert('', response.data.message, 'danger');
 				}
 			}).catch(error => {
-				this.alert('', this.joinErrors(error.response.data.errors), 'error');
+				console.log("erro");
+				if(this.error) {
+					this.run_alert('', this.joinErrors(error.response.data.errors), 'danger');
+				}
 			});
 		},
 		validate() {
+			this.showAlert = false;
 			axios.post(this.routes.validate, {
 				'content': this.template.content,
 				'sample': this.template.sample
 			}).then(response => {
 				if(response.data.success) {
-					this.alert(response.data.message);
+					this.run_alert('', response.data.message, 'success');
 				} else {
-					this.alert('', response.data.message, 'error');
+					this.run_alert('', response.data.message, 'danger');
 				}
 			}).catch(error => {
-
-				this.alert('', this.joinErrors(error.response.data.errors), 'error');
+				if(error.response){
+					if(error.response.data.message) {
+						this.run_alert('', error.response.data.message, 'danger');
+					} else {
+						this.run_alert('', this.joinErrors(error.response.data.errors), 'danger');
+					}
+				}
+				else if (error.data) {
+					this.run_alert('', error.data.message, 'danger');
+				}
 			});
 		},
 		joinErrors(errors) {
@@ -118,8 +135,13 @@ export default {
 			}
 			return string;
 		},
-		alert(title, text, icon) {
-			Swal.fire({title, text, icon});
+		run_alert(title, text, icon) {
+			//Por algum motivo o sweet alert não funciona em produção. Usando uma solução de contorno
+			//Swal.fire({title, text, icon});
+			//Swal('OKa')
+			this.showAlert = true;
+			this.message = text;
+			this.type_message = icon;
 		}
 	},
 	created() {
@@ -143,6 +165,9 @@ export default {
 				<h4 class="m-b-0 text-white">Template</h4>
 			</div>
 			<div class="card-block">
+			<b-alert v-model="showAlert" :variant="type_message" dismissible class="alert-fixed">
+				{{message}}
+			</b-alert>
 				<form method="post" ref="email_form" id="basic-form" :action="routes.update" data-toggle="validator" enctype="multipart/form-data">
 					<div class="form-body">
 						<div class="row p-t-20">
@@ -278,5 +303,12 @@ export default {
 .error {
 	border-color: #FF1111;
 	color: #FF1111;
+}
+.alert-fixed {
+	position: fixed;
+	top: 10%;
+	right: 15%;
+	width: 70%;
+	z-index: 10000;
 }
 </style>
