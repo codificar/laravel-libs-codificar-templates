@@ -45,9 +45,7 @@
 
 <script src="/js/lang.trans/detail"> </script>
 <script src="/js/lang/email_template"> </script>
-<script src="{{asset(mix('js/app.js', 'vendor/codificar/email_templates'))}}"> </script>
-<!-- <script src="/plugins/tinymce/tinymce.min.js"></script>
-<script src="/plugins/tinymce/tinymce.ini.js"></script> -->
+<script src="{{asset('vendor/codificar/email_templates/js/app.vue.js')}}"></script>
 
 
 @stop
