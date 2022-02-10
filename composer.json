@@ -1,11 +1,17 @@
 {
-    "name": "codificar/templates",
+    "name": "codificar/email-templates",
     "description": "Biblioteca para gerenciar templates de email.",
-    "authors": [{
-        "name": "Álvaro Tavares",
-        "email": "libs@codificar.com.br"
-    }],
-    "require": { },
+    "authors": [
+        {
+            "name": "Álvaro Tavares",
+            "email": "libs@codificar.com.br"
+        },
+        {
+            "name": "Raphael Canguçu",
+            "email": "raphael.cangucu@codificar.com.br"
+        }
+    ],
+    "require": {},
     "autoload": {
         "psr-4": {
             "Codificar\\Templates\\": "src/"
@@ -13,5 +19,26 @@
 		"files": [
 			"src/resources/helper.php"
 		]
-    }
+    },
+    "repositories": [
+        {
+          "type": "package",
+          "package": {
+            "name": "codificar/email-templates",
+            "version": "master",
+            "source": {
+              "url": "https://libs:ofImhksJ@git.codificar.com.br/laravel-libs/codificar-templates.git",
+              "type": "git",
+              "reference": "master"
+            }
+          }
+        }
+    ],    
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+
 }
