@@ -27,6 +27,9 @@ require:{
     "psr-4": {
         "Codificar\\Templates\\": "vendor/codificar/email-templates/src/"
     },
+    "files": [
+	    "vendor/codificar/email-templates/src/resources/helper.php"
+    ]
 }
 ```
 Update project dependencies:
