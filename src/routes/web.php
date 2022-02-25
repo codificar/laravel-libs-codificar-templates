@@ -16,8 +16,9 @@ Route::group(["prefix" => "/admin/libs/email_template", "before" => "hasPermissi
 });
 
 Route::get('/js/lang/email_template', function(){
-    header('Content-Type: text/javascript');
+
     $template = require __DIR__ . '/../translations/'.config('app.locale').'/email_template.php';
-    return ('window.lang.email_template = ' . json_encode($template) . ';');
-    exit();
+    
+	return response('window.lang.email_template = ' . json_encode($template) . ';')
+            ->header('Content-Type', 'text/javascript');
 });
