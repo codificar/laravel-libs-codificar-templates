@@ -18,7 +18,7 @@ Add in composer.json:
 
 ```php
 require:{
-        "codificar/email-templates": "0.1.0",
+        "codificar/email-templates": "0.1.1",
 }
 ```
 
