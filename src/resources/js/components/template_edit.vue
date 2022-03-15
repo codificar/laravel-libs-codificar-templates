@@ -1,9 +1,7 @@
 <script>
 import { LayoutPlugin, BTabs, BTab, BAlert } from "bootstrap-vue";
 import tinymce from "vue-tinymce-editor";
-//import swal from "vue-sweetalert2";
-import Swal from 'sweetalert2';
-//import Vue from 'vue';
+
 import axios from "axios";
 export default {
 	props: ['id',],
