@@ -26,7 +26,7 @@
 	}
 </style>
 <!-- Row -->
-<div id="VueJS">
+<div id="email-templates">
 	<template-edit id="{{$id}}"> </template-edit>
 </div>
 <!-- Row -->
@@ -45,7 +45,7 @@
 
 <script src="/js/lang.trans/detail"> </script>
 <script src="/js/lang/email_template"> </script>
-<script src="{{asset('vendor/codificar/email_templates/js/app.vue.js')}}"></script>
+<script src="{{asset('vendor/codificar/email-templates/js/email-templates.vue.js')}}"></script>
 
 
 @stop

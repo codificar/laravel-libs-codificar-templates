@@ -11,4 +11,6 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('src/resources/js/app.vue.js', 'public/js').vue();
+mix.js('src/resources/js/email-templates.vue.js', 'public/js').vue();
+
+mix.copyDirectory('public/js', '../../../public/vendor/codificar/email-templates/js');

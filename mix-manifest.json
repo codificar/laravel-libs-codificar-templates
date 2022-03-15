@@ -1,3 +1,7 @@
 {
-    "/public/js/app.vue.js": "/public/js/app.vue.js"
+    "/public/js/email-templates.vue.js": "/public/js/email-templates.vue.js",
+    "/public/vendor/codificar/email-templates/js/app.vue.js": "/public/vendor/codificar/email-templates/js/app.vue.js",
+    "/public/vendor/codificar/email-templates/js/app.vue.js.LICENSE.txt": "/public/vendor/codificar/email-templates/js/app.vue.js.LICENSE.txt",
+    "/public/vendor/codificar/email-templates/js/email-templates.vue.js": "/public/vendor/codificar/email-templates/js/email-templates.vue.js",
+    "/public/vendor/codificar/email-templates/js/email-templates.vue.js.LICENSE.txt": "/public/vendor/codificar/email-templates/js/email-templates.vue.js.LICENSE.txt"
 }
