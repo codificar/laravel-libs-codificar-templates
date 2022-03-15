@@ -39,6 +39,13 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Codificar\\Templates\\TemplateServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev"
 
 }
