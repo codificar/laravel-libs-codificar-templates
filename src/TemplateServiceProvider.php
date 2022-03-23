@@ -17,7 +17,15 @@ class TemplateServiceProvider extends ServiceProvider {
 		$this->loadTranslationsFrom(__DIR__ . '/translations', 'templates');
 
 		$this->publishes([
-			__DIR__ . '/../public' => public_path('vendor/codificar/email_templates'),
+			__DIR__ . '/../public' => public_path('vendor/codificar/email-templates'),
+		], 'public_vuejs_libs');
+
+		$this->publishes([
+			__DIR__ . '/../fonts' => public_path('fonts/'),
+		], 'public_vuejs_libs');
+
+		$this->publishes([
+			__DIR__ . '/../images' => public_path('images/'),
 		], 'public_vuejs_libs');
 
 		$this->publishes([
