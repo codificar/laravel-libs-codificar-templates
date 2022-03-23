@@ -28,14 +28,6 @@ class TemplateServiceProvider extends ServiceProvider {
 			__DIR__ . '/../images' => public_path('images/'),
 		], 'public_vuejs_libs');
 
-		$this->publishes([
-			__DIR__ . '/../fonts' => public_path('fonts/'),
-		], 'public_vuejs_libs');
-
-		$this->publishes([
-			__DIR__ . '/../images' => public_path('images/'),
-		], 'public_vuejs_libs');
-
 		if ($this->app->runningInConsole()) {
 			$this->commands([
 				ResetEmailTemplatesCommand::class,
