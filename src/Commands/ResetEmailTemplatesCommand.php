@@ -2,8 +2,8 @@
 
 namespace Codificar\Templates\Commands;
 use Illuminate\Console\Command;
-use Codificar\Templates\Http\EmailTemplate;
-
+use Codificar\Templates\Models\EmailTemplate;
+use DB;
 
 class ResetEmailTemplatesCommand extends Command {
 	/**
@@ -11,7 +11,7 @@ class ResetEmailTemplatesCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'reset:email';
+	protected $signature = 'email_template:reset {project?}';
 	/**
 	 * The console command description.
 	 *
@@ -26,28 +26,16 @@ class ResetEmailTemplatesCommand extends Command {
 	 */
 	public function handle()
 	{
-		//Marcar todos como não usados
-		EmailTemplate::where('id', '>', '0')->update(['is_used' => false]);
+		$projectType = $this->argument('project');
 
-		$email_template = include __DIR__ . '/../Http/Database/EmailTemplateData.php';
+		$fileName = __DIR__."/../Database/schema/".$projectType.".sql";
 
-		foreach ($email_template as $email) {
-			$template = EmailTemplate::where('key',  $email["key"])->first();
-			if($template) {
-				$template->subject = $email["subject"];
-				$template->content = $email["content"];
-				$template->sample = $email["sample"];
-				$template->is_used = true;
-				$template->save();
-			} else {
-				EmailTemplate::create([
-					"key" => $email["key"],
-					"subject" => $email["subject"],
-					"content" => $email["content"],
-					"sample" => $email["sample"],
-					"is_used" => 1
-				]);
-			}
+		if(file_exists($fileName)){
+			\DB::unprepared(file_get_contents($fileName));
+			$this->info("Templates reseted for ".$projectType);
+		}
+		else  {
+			$this->error("File to reset not found");
 		}
 	}
 }

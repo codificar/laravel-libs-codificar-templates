@@ -3,7 +3,7 @@
 namespace Codificar\Templates\Http\Requests;
 
 use Codificar\Templates\Http\Controllers\EmailTemplateController;
-use Codificar\Templates\Http\EmailTemplate;
+use Codificar\Templates\Models\EmailTemplate;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;

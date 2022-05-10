@@ -25,6 +25,7 @@ return [
 	'save'				=> 'Salvar',
 	'cancel'			=> 'Cancelar',
 	'test'				=> 'Testar',
+	'preview'			=> 'Visualizar',
 	'save_change'		=> 'Salvar mudanças',
 
 	'list'				=> 'Listar templates de email',

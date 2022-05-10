@@ -2,7 +2,7 @@
 
 namespace Codificar\Templates\Commands;
 use Illuminate\Console\Command;
-use Codificar\Templates\Http\EmailTemplate;
+use Codificar\Templates\Models\EmailTemplate;
 
 use function GuzzleHttp\json_decode;
 

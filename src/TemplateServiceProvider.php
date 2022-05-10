@@ -12,7 +12,7 @@ class TemplateServiceProvider extends ServiceProvider {
 
 		$this->loadViewsFrom(__DIR__.'/resources/views', 'templates');
 
-		$this->loadMigrationsFrom(__DIR__.'/Http/Database/migrations');
+		$this->loadMigrationsFrom(__DIR__.'/Database/migrations');
 
 		$this->loadTranslationsFrom(__DIR__ . '/translations', 'templates');
 

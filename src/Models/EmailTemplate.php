@@ -1,9 +1,10 @@
 <?php
 
-namespace Codificar\Templates\Http;
+namespace Codificar\Templates\Models;
 
 use App\Jobs\SendEmailJob;
 use Illuminate\Support\Facades\Mail;
+
 class EmailTemplate extends \Eloquent {
 	protected $fillable = array('id', 'subject', 'key','copy_emails','from', 'sample');
 
@@ -24,28 +25,6 @@ class EmailTemplate extends \Eloquent {
 		return false ;
 	}
 
-	public static function SentWithSendGrid($message_body, $subject, $mailFrom, $mailTo, $key, $replyTo = null, $copyEmails = null){
-		try{
-			$sendgrid = new SendGrid($key);
-
-			$app_name = \Settings::where('key', '=', 'website_title')->first();
-			$from = new SendGrid\Email($app_name->value, $mailFrom);
-			$to = new SendGrid\Email(null, $mailTo);
-			$content = new SendGrid\Content("text/html", $message_body);
-			$mail = new SendGrid\Mail($from, $subject, $to, $content);
-
-			if($replyTo){
-				$replyTo = new SendGrid\Email(null, $replyTo);
-				$mail->setReplyTo($replyTo) ;
-			}
-
-			$response = $sendgrid->client->mail()->send()->post($mail);
-		}catch(Exception $e){
-			Log::error($e);
-		}
-
-	}
-
 	public function send($vars, $emailTo, $subject = null, $replyTo = null)
 	{
 		if (!$subject) {
@@ -59,7 +38,7 @@ class EmailTemplate extends \Eloquent {
 		}
 
 		if(empty($vars)) {
-			$vars = json_decode($this->sample, true);
+			$vars = $this->getSampleVars();
 		}
 
 		$vars['logo'] = \Config::get('app.url') . \Codificar\Themes\Http\Theme::getLogoUrl();
@@ -89,6 +68,10 @@ class EmailTemplate extends \Eloquent {
 		return EmailTemplate::where('key', $key)->first();
 	}
 
+	/**
+	 * get email template content
+	 * @return string | Arquivo inexistente
+	 */
 	public function getContent(){
 		if($this->content)
 			return $this->content;
@@ -97,47 +80,23 @@ class EmailTemplate extends \Eloquent {
 
 			if (file_exists($path)) {
 				return file_get_contents($path, "rw+");
-			}else{
-				return "Arquivo inexistente";
+			}
+			else {
+				$defaultLayout = self::getTemplateByKey('layout');
+				if($defaultLayout)
+					$defaultLayout->content;
+				else
+					return "Arquivo inexistente";
 			}
 		}
 
 		return null ;
 	}
 
-	public static function sendByAmazonSes($body, $subject, $from, $to){
-		$amazon_ses_servername = \Settings::findByKey('amazon_ses_servername');
-		$amazon_ses_username = \Settings::findByKey('amazon_ses_username');
-	 	$amazon_ses_password = \Settings::findByKey('amazon_ses_password');
-		$amazon_ses_port = \Settings::findByKey('amazon_ses_port');
-		$amazon_ses_tls = \Settings::findByKey('amazon_ses_tls');
-
-		$mail = new PHPMailer;
-		$mail->isSMTP();                                      // Set mailer to use SMTP
-		$mail->Host = $amazon_ses_servername;  // Specify main and backup SMTP servers
-		$mail->SMTPAuth = true;                               // Enable SMTP authentication
-		$mail->Username = $amazon_ses_username;                 // SMTP username
-		$mail->Password = $amazon_ses_password;                           // SMTP password
-		$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-		$mail->Port = $amazon_ses_port;                                   // TCP port to connect to
-
-		$app_name = \Settings::where('key', '=', 'website_title')->first();
-		$mail->setFrom($from, $app_name->value);
-		$mail->addAddress($to);
-		$mail->isHTML(true);                                  // Set email format to HTML
-		$mail->SMTPDebug = 2;
-		$mail->Subject = $subject;
-		$mail->Body    = $body;
-		$mail->AltBody = $body;
-
-		if(!$mail->send()) {
-		    // Log::info('Message could not be sent.');
-		    // Log::info('Mailer Error: ' . $mail->ErrorInfo);
-		} else {
-		    // Log::info( 'Message has been sent');
-		}
-	}
-
+	/**
+	 * get email sample array
+	 * @return array 
+	 */
 	private function getSample() {
 		$template=$this;
 		$variaveis_fixas = ['date', 'logo'];
@@ -163,15 +122,33 @@ class EmailTemplate extends \Eloquent {
 		return $sample_array;
 	}
 
+	/**
+	 * get email sample vars
+	 * @return array 
+	 */
 	public function test()
 	{
-		// try {
-		// 	Queue::push(new SendEmailJob($this->key, $this->sample, 'test@codificar.com', null, null));
-		// } catch(Exception $e) {
-		// 	\Log::error($e->getMessage());
-		// }
-		\Log::info('Email de teste ' . $this->key . ' ' . $this->sample);
 		$this->send($this->getSample(), 'teste@codificar.com.br');
-		// self::SendByKey($this->key, $vars, 'test@codificar.com');
+	}
+
+	/**
+	 * get email sample vars
+	 * @return array 
+	 */
+	public function getSampleVars() {
+		$commonVars = [
+			"website_title" => "Aplicativo de Mobilidade",
+			"issuer_name" => "Codificar",
+			"issuer_site" => "https://codificar.com.br",
+			"issuer_address" => "BH - MG",
+			"issuer_zipcode" => "30190-50",
+			"issuer_document" => "05.957.264/0001-51",
+			"provider_name" => "Nome do Prestador",
+			"user_name" => "Nome do Passageiro",
+			"logo" => "https://www.codificar.com.br/wp-content/uploads/2015/01/logoEstilizada.png"
+		];
+		$vars = json_decode($this->sample, true);
+
+		return array_merge($vars, $commonVars);
 	}
 }

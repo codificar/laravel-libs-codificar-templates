@@ -12,7 +12,7 @@ Route::group(["prefix" => "/admin/libs/email_template", "before" => "hasPermissi
 	Route::post('/test', ['as' => 'EmailTemplateTest', 'uses' => EmailTemplateController::class.'@test']);
 	Route::post('/api/test', ['as' => 'EmailTemplateTestApi', 'uses' => EmailTemplateController::class.'@testApi']);
 	Route::post('/api/validate', ['as' => 'EmailTemplateValidateApi', 'uses' => EmailTemplateController::class.'@validate']);
-	Route::any('/make_migration', ['as' => 'EmailTemplateMigration', 'uses' => EmailTemplateController::class.'@makeSeederDataAll']);
+	Route::any('/preview/{id}', ['as' => 'EmailTemplatePreview', 'uses' => EmailTemplateController::class.'@preview']);
 });
 
 Route::get('/js/lang/email_template', function(){

@@ -2,7 +2,7 @@
 
 namespace Codificar\Templates\Http\Controllers;
 
-use Codificar\Templates\Http\EmailTemplate;
+use Codificar\Templates\Models\EmailTemplate;
 use Codificar\Templates\Http\Requests\EmailTemplateTestApiRequest;
 use Codificar\Templates\Http\Requests\EmailTemplateUpdateRequest;
 
@@ -29,6 +29,17 @@ class EmailTemplateController extends Controller {
 	{
 		$email_template = EmailTemplate::find($id);
 		return $email_template;
+	}
+
+	/**
+	 * Recupera um template de email
+	 */
+	public function preview($id)
+	{
+		$emailTemplate = EmailTemplate::find($id);
+		$vars = $emailTemplate->getSampleVars();
+		
+		return bladeCompile($emailTemplate->getContent(), ['vars' => $vars]);
 	}
 
 
@@ -65,7 +76,7 @@ class EmailTemplateController extends Controller {
 			}
 			$emailtemplate->delete();
 		}
-		return redirect("/admin/email_template");
+		return redirect("/admin/libs/email_template");
 	}
 
 	//Cria novo template de email se ainda não existir
@@ -157,37 +168,6 @@ class EmailTemplateController extends Controller {
 			];
 		}
 		return ['success' => true];
-	}
-
-	public function makeSeederDataAll()
-	{
-		$path = '../Database/EmailTemplateData.php';
-		$file = fopen($path, 'w');
-		try {
-			fwrite($file, "<?php\n\n\$array = [];\n");
-
-			$templates = EmailTemplate::all();
-			foreach ($templates as $template) {
-				$content = $this->convertChars($template->content);
-				$subject = $this->convertChars($template->subject);
-				if($template->is_used){
-					$string = "\$array[] = ['key' => '$template->key', 'subject' => '$subject', 'sample' => '$template->sample',
-'content' => '$content'];\n\n";
-					fwrite($file, $string);
-				}
-			}
-
-			fwrite($file, 'return $array;');
-		} catch (\Throwable $th) {
-			//throw $th;
-		} finally {
-			chmod($path, 0777);
-			fclose($file);
-		}
-
-
-		// return redirect()->route('EmailTemplates');
-		// return 'OK';
 	}
 
 	private function convertChars($content)
