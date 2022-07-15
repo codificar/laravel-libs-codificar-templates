@@ -49,7 +49,7 @@ class EmailTemplate extends \Eloquent {
 
 		return Mail::send([], [], function ($message) use ($emailContent, $emailTo, $subject, $replyTo, $copyEmails, $emailFrom) {
 			$message->from($emailFrom, \Settings::findByKey('website_title'));
-			$message->to($emailTo)->subject($subject);
+			$message->to($emailTo)->subject(trans($subject));
 			if ($replyTo)
 				$message->replyTo($replyTo);
 			if ($copyEmails)
