@@ -17,9 +17,10 @@ class EmailTemplate extends \Eloquent {
 				$emailTemplate->send($vars, $emailTo, $subject, $replyTo);
 			}
 			else {
-				Log::error("Template de e-mail inexistente:". $key);
+				\Log::error("Template de e-mail inexistente:". $key);
+				\Log::error("Template Email: " . $emailTemplate);
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			\Log::error($e);
 		}
 		return false ;
