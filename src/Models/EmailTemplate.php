@@ -104,7 +104,7 @@ class EmailTemplate extends \Eloquent {
 		preg_match_all('/\$vars\[\'([^\']*)\'\]/', $template->content, $vars);
 
 		if($template->sample) {
-			$current_sample = json_decode($template->sample);
+			$current_sample = json_decode($template->sample, true);
 		} else {
 			$current_sample = [];
 		}
@@ -112,15 +112,15 @@ class EmailTemplate extends \Eloquent {
 		$sample_array = [];
 		foreach ($vars[1] as $var) {
 			if(!in_array($var, $variaveis_fixas)) {
-				if(isset($current_sample->$var)) {
-					$sample_array[$var] = $current_sample->$var;
+				if(isset($current_sample[$var])) {
+					$sample_array[$var] = $current_sample[$var];
 				} else {
 					$sample_array[$var] = "[Undefined Test Variable]";
 				}
 			}
 		}
 
-		return $sample_array;
+		return array_merge($current_sample, $sample_array);
 	}
 
 	/**
