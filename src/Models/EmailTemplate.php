@@ -21,7 +21,7 @@ class EmailTemplate extends \Eloquent {
 				\Log::error("Template Email: " . $emailTemplate);
 			}
 		} catch (\Exception $e) {
-			\Log::error($e);
+			\Log::error($e->getMessage() . $e->getTraceAsString());
 		}
 		return false ;
 	}
