@@ -5,24 +5,25 @@ namespace Codificar\Templates\Models;
 use App\Jobs\SendEmailJob;
 use Illuminate\Support\Facades\Mail;
 
-class EmailTemplate extends \Eloquent {
-	protected $fillable = array('id', 'subject', 'key','copy_emails','from', 'sample');
+class EmailTemplate extends \Eloquent
+{
+	protected $fillable = array('id', 'subject', 'key', 'copy_emails', 'from', 'sample');
 
 	protected $table = 'email_template';
 
-	public static function SendByKey($key, $vars, $emailTo, $subject = null,  $replyTo = null){
+	public static function SendByKey($key, $vars, $emailTo, $subject = null,  $replyTo = null)
+	{
 		try {
 
-			if($emailTemplate = self::getTemplateByKey($key)){
+			if ($emailTemplate = self::getTemplateByKey($key)) {
 				$emailTemplate->send($vars, $emailTo, $subject, $replyTo);
-			}
-			else {
-				Log::error("Template de e-mail inexistente:". $key);
+			} else {
+				Log::error("Template de e-mail inexistente:" . $key);
 			}
 		} catch (Exception $e) {
 			\Log::error($e);
 		}
-		return false ;
+		return false;
 	}
 
 	public function send($vars, $emailTo, $subject = null, $replyTo = null)
@@ -37,7 +38,7 @@ class EmailTemplate extends \Eloquent {
 			$emailFrom = \Settings::getAdminEmail();
 		}
 
-		if(empty($vars)) {
+		if (empty($vars)) {
 			$vars = $this->getSampleVars();
 		}
 
@@ -64,7 +65,8 @@ class EmailTemplate extends \Eloquent {
 	 * @param  String $key email_key
 	 * @return EmailTempalte | null
 	 */
-	public static function getTemplateByKey($key){
+	public static function getTemplateByKey($key)
+	{
 		return EmailTemplate::where('key', $key)->first();
 	}
 
@@ -72,37 +74,38 @@ class EmailTemplate extends \Eloquent {
 	 * get email template content
 	 * @return string | Arquivo inexistente
 	 */
-	public function getContent(){
-		if($this->content)
+	public function getContent()
+	{
+		if ($this->content)
 			return $this->content;
 		else {
-			$path = base_path().'/resources/views/emails/'.$this->key.'.blade.php';
+			$path = base_path() . '/resources/views/emails/' . $this->key . '.blade.php';
 
 			if (file_exists($path)) {
 				return file_get_contents($path, "rw+");
-			}
-			else {
+			} else {
 				$defaultLayout = self::getTemplateByKey('layout');
-				if($defaultLayout)
+				if ($defaultLayout)
 					$defaultLayout->content;
 				else
 					return "Arquivo inexistente";
 			}
 		}
 
-		return null ;
+		return null;
 	}
 
 	/**
 	 * get email sample array
 	 * @return array 
 	 */
-	private function getSample() {
-		$template=$this;
+	private function getSample()
+	{
+		$template = $this;
 		$variaveis_fixas = ['date', 'logo'];
-		preg_match_all('/\$vars\[\'([^\']*)\'\]/', $template->content, $vars);
+		preg_match_all('/\$vars\["([^"]+)"\]/', $template->content, $vars);
 
-		if($template->sample) {
+		if ($template->sample) {
 			$current_sample = json_decode($template->sample);
 		} else {
 			$current_sample = [];
@@ -110,8 +113,8 @@ class EmailTemplate extends \Eloquent {
 
 		$sample_array = [];
 		foreach ($vars[1] as $var) {
-			if(!in_array($var, $variaveis_fixas)) {
-				if(isset($current_sample->$var)) {
+			if (!in_array($var, $variaveis_fixas)) {
+				if (isset($current_sample->$var)) {
 					$sample_array[$var] = $current_sample->$var;
 				} else {
 					$sample_array[$var] = "[Undefined Test Variable]";
@@ -135,7 +138,8 @@ class EmailTemplate extends \Eloquent {
 	 * get email sample vars
 	 * @return array 
 	 */
-	public function getSampleVars() {
+	public function getSampleVars()
+	{
 		$commonVars = [
 			"website_title" => "Aplicativo de Mobilidade",
 			"issuer_name" => "Codificar",
