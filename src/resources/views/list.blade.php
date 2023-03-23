@@ -42,22 +42,25 @@
 						<td>{!! $notUsedOpen . $emailtemplate->key . $notUsedClose !!}</td>
 						<td>{{ $emailtemplate->copy_emails }}</td>
 						<td>
-							<form action="email_template/test" method="POST" class="form form-inline">
-							<input type="hidden" name="id" value="{{$emailtemplate->id}}">
-								<button type="submit" class="btn btn-warning mr-2" @if(!$emailtemplate->is_used) disabled @endif>{{trans('templates::email_template.test')}}</button>
-							</form>
-							
-							<a  href="{{ URL::Route('EmailTemplatePreview', $emailtemplate->id) }}" target='_blank' class="btn btn-info mr-2">{{trans('templates::email_template.preview')}}</a>
+							<div class="d-flex align-items-center">
+								<form action="email_template/test" method="POST" class="form form-inline">
+									<input type="hidden" name="id" value="{{$emailtemplate->id}}">
+									<button type="submit" class="btn btn-warning mr-2" @if(!$emailtemplate->is_used) disabled @endif>{{trans('templates::email_template.test')}}</button>
+								</form>
+								
+								<div class="d-flex">
+									<a href="{{ URL::Route('EmailTemplatePreview', $emailtemplate->id) }}" target='_blank' class="btn btn-info mr-2 d-inline">{{trans('templates::email_template.preview')}}</a>
 
-							@if(AuthUtils::hasPermissionByUrl('EmailTemplateEdit'))
-							<a href="{{ URL::Route('EmailTemplateEdit', $emailtemplate->id) }}" class="btn btn-success mr-2">{{trans('templates::email_template.edit')}}</a>
-							@endif
-							@if(AuthUtils::hasPermissionByUrl('EmailTemplateDelete'))
-							<a href="{{ URL::Route('EmailTemplateDelete', $emailtemplate->id) }}" class="btn btn-danger">{{trans('templates::email_template.delete')}}</a>
-							@endif
-							
-							
+									@if(AuthUtils::hasPermissionByUrl('EmailTemplateEdit'))
+										<a href="{{ URL::Route('EmailTemplateEdit', $emailtemplate->id) }}" class="btn btn-success mr-2 d-inline">{{trans('templates::email_template.edit')}}</a>
+									@endif
+									@if(AuthUtils::hasPermissionByUrl('EmailTemplateDelete'))
+										<a href="{{ URL::Route('EmailTemplateDelete', $emailtemplate->id) }}" class="btn btn-danger d-inline">{{trans('templates::email_template.delete')}}</a>
+									@endif
+								</div>
+							</div>
 						</td>
+
 					</tr>
 					@endforeach
 				</tbody>

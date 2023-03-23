@@ -7,7 +7,7 @@ Route::group(["prefix" => "/admin/libs/email_template", "before" => "hasPermissi
 	Route::post('/update', array('as' => 'EmailTemplateUpdate', 'uses' => EmailTemplateController::class . '@update_template'));
 	Route::get('/', array('as' => 'LibEmailTemplates', 'uses' => EmailTemplateController::class . '@index'));
 	Route::get('/get/{id}', array('as' => 'EmailTemplate', 'uses' => EmailTemplateController::class . '@getEmail'));
-	Route::get('/edit/{id}', array('as' => 'EmailTemplateEdit', 'uses' => EmailTemplateController::class . '@edit_template'));
+	Route::get('/edit/{id}', ['as' => 'EmailTemplateEdit', 'uses' => EmailTemplateController::class . '@edit_template']);
 	Route::get('/delete/{id}', array('as' => 'EmailTemplateDelete', 'uses' => EmailTemplateController::class . '@delete_template'));
 	Route::post('/test', ['as' => 'EmailTemplateTest', 'uses' => EmailTemplateController::class . '@test']);
 	Route::post('/api/test', ['as' => 'EmailTemplateTestApi', 'uses' => EmailTemplateController::class . '@testApi']);
