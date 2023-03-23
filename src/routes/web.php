@@ -5,7 +5,7 @@ use Codificar\Templates\Http\Controllers\EmailTemplateController;
 //Email Template
 Route::group(["prefix" => "/admin/libs/email_template", "before" => "hasPermission:" . Permission::PARTNER, "middleware" => ["auth.admin"]], function () {
 	Route::post('/update', array('as' => 'EmailTemplateUpdate', 'uses' => EmailTemplateController::class . '@update_template'));
-	Route::get('/', array('as' => 'LibEmailTemplates', 'uses' => EmailTemplateController::class . '@index'));
+	Route::get('/', array('as' => 'EmailTemplates', 'uses' => EmailTemplateController::class . '@index'));
 	Route::get('/get/{id}', array('as' => 'EmailTemplate', 'uses' => EmailTemplateController::class . '@getEmail'));
 	Route::get('/edit/{id}', ['as' => 'EmailTemplateEdit', 'uses' => EmailTemplateController::class . '@edit_template']);
 	Route::get('/delete/{id}', array('as' => 'EmailTemplateDelete', 'uses' => EmailTemplateController::class . '@delete_template'));
