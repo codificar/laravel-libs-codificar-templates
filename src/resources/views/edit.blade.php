@@ -33,7 +33,7 @@
 
 <script>
 	window.routes = {
-		list: "{{route('EmailTemplates')}}",
+		list: "{{route('LibEmailTemplates')}}",
 		get: "{{route('EmailTemplate', $id)}}",
 		edit: "{{route('EmailTemplateEdit', $id)}}",
 		update: "{{route('EmailTemplateUpdate')}}",
