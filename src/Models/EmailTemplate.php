@@ -145,6 +145,7 @@ class EmailTemplate extends \Eloquent {
 			"issuer_document" => "05.957.264/0001-51",
 			"provider_name" => "Nome do Prestador",
 			"user_name" => "Nome do Passageiro",
+			"new_password" => "Nova Senha",
 			"logo" => "https://www.codificar.com.br/wp-content/uploads/2015/01/logoEstilizada.png"
 		];
 		$vars = json_decode($this->sample, true);
