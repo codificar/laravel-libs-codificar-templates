@@ -262,29 +262,27 @@ export default {
 								</div>
 							</div>
 							<!--Buttons-->
-							<div class="box-footer">
-								<div class="pull-right">
-									<div class="row">
-										<div class="col">
-											<button type="button" onclick="location.href=window.routes.list" id="email-template-cancel" name="button" class="btn btn-inverse btn-flat">
-												{{trans('email_template.cancel') }}
-											</button>
-										</div>
-										<div class="col">
-											<button type="button" @click="test" id="email-template-test" name="button" class="btn btn-warning btn-flat">
-												{{trans('email_template.test') }}
-											</button>
-										</div>
-										<div class="col">
-											<button type="button" id="validate" class="btn btn-info btn-flat btn-block" @click="validate">
-												{{trans('email_template.validate') }}
-											</button>
-										</div>
-										<div class="col">
-											<button type="button" id="save_tamplate" class="btn btn-success btn-flat btn-block" @click="submitForm">
-												{{trans('email_template.save_change') }}
-											</button>
-										</div>
+							<div class="box-footer text-center">
+								<div class="row d-flex justify-content-between">
+									<div class="col">
+										<button type="button" onclick="location.href=window.routes.list" id="email-template-cancel" name="button" class="btn btn-inverse btn-flat">
+											{{trans('email_template.cancel') }}
+										</button>
+									</div>
+									<div class="col">
+										<button type="button" @click="test" id="email-template-test" name="button" class="btn btn-warning btn-flat">
+											{{trans('email_template.test') }}
+										</button>
+									</div>
+									<div class="col">
+										<button type="button" id="validate" class="btn btn-info btn-flat btn-block" @click="validate">
+											{{trans('email_template.validate') }}
+										</button>
+									</div>
+									<div class="col">
+										<button type="button" id="save_tamplate" class="btn btn-success btn-flat btn-block" @click="submitForm">
+											{{trans('email_template.save_change') }}
+										</button>
 									</div>
 								</div>
 							</div>
