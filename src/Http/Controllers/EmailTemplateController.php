@@ -9,10 +9,12 @@ use Codificar\Templates\Http\Requests\EmailTemplateUpdateRequest;
 
 use Illuminate\Routing\Controller;
 
-class EmailTemplateController extends Controller {
+class EmailTemplateController extends Controller
+{
 
 	// tabela de emails
-	public function index() {
+	public function index()
+	{
 		$emailtemplate = EmailTemplate::paginate(50);
 		$title = ucwords(trans('email_template.email_template')); /* 'Email View' */
 
@@ -38,7 +40,7 @@ class EmailTemplateController extends Controller {
 	{
 		$emailTemplate = EmailTemplate::find($id);
 		$vars = $emailTemplate->getSampleVars();
-		
+
 		return bladeCompile($emailTemplate->getContent(), ['vars' => $vars]);
 	}
 
@@ -51,8 +53,7 @@ class EmailTemplateController extends Controller {
 		$emailtemplate = EmailTemplate::find($id);
 		if ($emailtemplate) {
 			$id = $emailtemplate->id;
-		}
-		else {
+		} else {
 			$id = 0;
 		}
 
@@ -69,9 +70,9 @@ class EmailTemplateController extends Controller {
 
 		if ($emailtemplate) {
 			$key = $emailtemplate->key;
-			$path = base_path().'/resources/views/emails/'.$key.'.blade.php';
+			$path = base_path() . '/resources/views/emails/' . $key . '.blade.php';
 
-			if (file_exists($path = base_path().'/resources/views/emails/'.$key.'.blade.php')) {
+			if (file_exists($path = base_path() . '/resources/views/emails/' . $key . '.blade.php')) {
 				unlink($path);
 			}
 			$emailtemplate->delete();
@@ -96,16 +97,15 @@ class EmailTemplateController extends Controller {
 		return [
 			'success' => true
 		];
-
 	}
 
 	public static function verify($content, $vars)
 	{
 		try {
-			if(!isset($vars['date'])) {
+			if (!isset($vars['date'])) {
 				$vars['date'] = today();
 			}
-			if(!isset($vars['logo'])) {
+			if (!isset($vars['logo'])) {
 				$vars['logo'] = \Codificar\Themes\Http\Theme::getLogo();
 			}
 			bladeCompile($content, ['vars' => $vars]);
@@ -115,7 +115,7 @@ class EmailTemplateController extends Controller {
 			];
 		} catch (\Exception $e) {
 			$message = $e->getMessage();
-			if(str_starts_with($message, 'Undefined index: ')) {
+			if (str_starts_with($message, 'Undefined index: ')) {
 				$error = '';
 				$message = trans('templates::email_template.undefined', ['variable' => str_replace('Undefined index: ', '', $message)]);
 			} else {
@@ -138,13 +138,13 @@ class EmailTemplateController extends Controller {
 	public function test()
 	{
 		$template = EmailTemplate::findOrFail(request()->get('id'));
-		try{
+		try {
 			$template->test();
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\Log::error($e->getMessage());
-			return redirect()->route('EmailTemplates')->withErrors([$e->getMessage()]);
+			return redirect()->route('LibEmailTemplates')->withErrors([$e->getMessage()]);
 		}
-		return redirect()->route('EmailTemplates')->with(['success' => trans('templates::email_template.test_successfull')]);
+		return redirect()->route('LibEmailTemplates')->with(['success' => trans('templates::email_template.test_successfull')]);
 	}
 
 	public function testApi(EmailTemplateTestApiRequest $request)
@@ -158,9 +158,9 @@ class EmailTemplateController extends Controller {
 		$template->content = $content;
 		$template->sample = $request->sample;
 
-		try{
+		try {
 			$template->test();
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\Log::error($e->getMessage());
 			return [
 				'success' => false,
@@ -174,5 +174,4 @@ class EmailTemplateController extends Controller {
 	{
 		return str_replace("'", "\'", $content);
 	}
-
 }
