@@ -148,7 +148,11 @@ class EmailTemplate extends \Eloquent {
 			"user_name" => "Nome do Passageiro",
 			"logo" => "https://www.codificar.com.br/wp-content/uploads/2015/01/logoEstilizada.png"
 		];
-		$vars = json_decode($this->sample, true);
+		$sample = "{}";
+		if(isset($this->sample)) {
+			$sample = $this->sample;
+		}
+		$vars = json_decode($sample, true);
 
 		return array_merge($vars, $commonVars);
 	}
