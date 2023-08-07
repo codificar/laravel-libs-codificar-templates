@@ -168,8 +168,9 @@ class EmailTemplate extends \Eloquent
 			'user_neighborhood'	=> "Bairro do Paciente",
 			'UF_provider'       => "Estado do prestador",
 			'UF_user'			=> "Estado do Paciente",
-			'provider_professional_document'	=> "Documento do profissional"
-			
+			'provider_professional_document'	=> "Documento do profissional",
+			'provider_city'		=> "Cidade do Prestador",
+			'user_city'			=> "Cidade do usuário",
 		];
 		
 		$vars = json_decode($this->sample, true);
