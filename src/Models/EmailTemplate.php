@@ -151,7 +151,7 @@ class EmailTemplate extends \Eloquent
 			"user_name" => "Nome do Passageiro",
 			"new_password" => "Nova Senha",
 			"logo" => "https://www.codificar.com.br/wp-content/uploads/2015/01/logoEstilizada.png",
-			"ride_total" => "Valor dos serviços",
+			"ride_total" => "Valor total da corrida",
 			"ride_payment_mode" => "Método de pagamento",
 			"service_name" =>  "Serviços prestados", 
 			"ride_start_time" => "Hora de inicio do agendamento",
@@ -171,6 +171,8 @@ class EmailTemplate extends \Eloquent
 			'provider_professional_document'	=> "Documento do profissional",
 			'provider_city'		=> "Cidade do Prestador",
 			'user_city'			=> "Cidade do usuário",
+			'displacement_fee'  => "taxa de deslocamento",
+			'service_value'  => 'valor dos serviços'
 		];
 		
 		$vars = json_decode($this->sample, true);
