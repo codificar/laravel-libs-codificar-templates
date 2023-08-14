@@ -172,7 +172,9 @@ class EmailTemplate extends \Eloquent
 			'provider_city'		=> "Cidade do Prestador",
 			'user_city'			=> "Cidade do usuário",
 			'displacement_fee'  => "taxa de deslocamento",
-			'service_value'  => 'valor dos serviços'
+			'service_value'  => 'valor dos serviços',
+			'userWhenApproved'	=> "Horário em que o usuário aceitou os termos",
+			'providerWhenApproved' => "Horário em que o prestador aceitou os termos"
 		];
 		
 		$vars = json_decode($this->sample, true);
