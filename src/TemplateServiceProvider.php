@@ -30,7 +30,7 @@ class TemplateServiceProvider extends ServiceProvider {
 
         // Publish the tests files 
         $this->publishes([
-            __DIR__ . '/../tests/' => base_path('tests/Unit/libs/chat'),
+            __DIR__ . '/../tests/' => base_path('tests/Unit/libs/templates'),
         ], 'publishes_tests');
 
 		if ($this->app->runningInConsole()) {
