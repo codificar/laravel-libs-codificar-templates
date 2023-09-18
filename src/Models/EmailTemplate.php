@@ -5,25 +5,26 @@ namespace Codificar\Templates\Models;
 use App\Jobs\SendEmailJob;
 use Illuminate\Support\Facades\Mail;
 
-class EmailTemplate extends \Eloquent {
-	protected $fillable = array('id', 'subject', 'key','copy_emails','from', 'sample');
+class EmailTemplate extends \Eloquent
+{
+	protected $fillable = array('id', 'subject', 'key', 'copy_emails', 'from', 'sample');
 
 	protected $table = 'email_template';
 
-	public static function SendByKey($key, $vars, $emailTo, $subject = null,  $replyTo = null){
+	public static function SendByKey($key, $vars, $emailTo, $subject = null,  $replyTo = null)
+	{
 		try {
 
-			if($emailTemplate = self::getTemplateByKey($key)){
+			if ($emailTemplate = self::getTemplateByKey($key)) {
 				$emailTemplate->send($vars, $emailTo, $subject, $replyTo);
-			}
-			else {
-				\Log::error("Template de e-mail inexistente:". $key);
+			} else {
 				\Log::error("Template Email: " . $emailTemplate);
+				\Log::error("Template de e-mail inexistente:" . $key);
 			}
 		} catch (\Exception $e) {
 			\Log::error($e->getMessage() . $e->getTraceAsString());
 		}
-		return false ;
+		return false;
 	}
 
 	public function send($vars, $emailTo, $subject = null, $replyTo = null)
@@ -38,7 +39,7 @@ class EmailTemplate extends \Eloquent {
 			$emailFrom = \Settings::getAdminEmail();
 		}
 
-		if(empty($vars)) {
+		if (empty($vars)) {
 			$vars = $this->getSampleVars();
 		}
 
@@ -65,7 +66,8 @@ class EmailTemplate extends \Eloquent {
 	 * @param  String $key email_key
 	 * @return EmailTempalte | null
 	 */
-	public static function getTemplateByKey($key){
+	public static function getTemplateByKey($key)
+	{
 		return EmailTemplate::where('key', $key)->first();
 	}
 
@@ -73,47 +75,48 @@ class EmailTemplate extends \Eloquent {
 	 * get email template content
 	 * @return string | Arquivo inexistente
 	 */
-	public function getContent(){
-		if($this->content)
+	public function getContent()
+	{
+		if ($this->content)
 			return $this->content;
 		else {
-			$path = base_path().'/resources/views/emails/'.$this->key.'.blade.php';
+			$path = base_path() . '/resources/views/emails/' . $this->key . '.blade.php';
 
 			if (file_exists($path)) {
 				return file_get_contents($path, "rw+");
-			}
-			else {
+			} else {
 				$defaultLayout = self::getTemplateByKey('layout');
-				if($defaultLayout)
+				if ($defaultLayout)
 					$defaultLayout->content;
 				else
 					return "Arquivo inexistente";
 			}
 		}
 
-		return null ;
+		return null;
 	}
 
 	/**
 	 * get email sample array
 	 * @return array 
 	 */
-	private function getSample() {
-		$template=$this;
+	private function getSample()
+	{
+		$template = $this;
 		$variaveis_fixas = ['date', 'logo'];
-		preg_match_all('/\$vars\[\'([^\']*)\'\]/', $template->content, $vars);
+		preg_match_all('/\$vars\["([^"]+)"\]/', $template->content, $vars);
 
-		if($template->sample) {
-			$current_sample = json_decode($template->sample, true);
+		if ($template->sample) {
+			$current_sample = json_decode($template->sample);
 		} else {
 			$current_sample = [];
 		}
 
 		$sample_array = [];
 		foreach ($vars[1] as $var) {
-			if(!in_array($var, $variaveis_fixas)) {
-				if(isset($current_sample[$var])) {
-					$sample_array[$var] = $current_sample[$var];
+			if (!in_array($var, $variaveis_fixas)) {
+				if (isset($current_sample->$var)) {
+					$sample_array[$var] = $current_sample->$var;
 				} else {
 					$sample_array[$var] = "[Undefined Test Variable]";
 				}
@@ -136,7 +139,8 @@ class EmailTemplate extends \Eloquent {
 	 * get email sample vars
 	 * @return array 
 	 */
-	public function getSampleVars() {
+	public function getSampleVars()
+	{
 		$commonVars = [
 			"website_title" => "Aplicativo de Mobilidade",
 			"issuer_name" => "Codificar",
@@ -146,7 +150,32 @@ class EmailTemplate extends \Eloquent {
 			"issuer_document" => "05.957.264/0001-51",
 			"provider_name" => "Nome do Prestador",
 			"user_name" => "Nome do Passageiro",
-			"logo" => "https://www.codificar.com.br/wp-content/uploads/2015/01/logoEstilizada.png"
+			"new_password" => "Nova Senha",
+			"logo" => "https://www.codificar.com.br/wp-content/uploads/2015/01/logoEstilizada.png",
+			"ride_total" => "Valor total da corrida",
+			"ride_payment_mode" => "Método de pagamento",
+			"service_name" =>  "Serviços prestados", 
+			"ride_start_time" => "Hora de inicio do agendamento",
+			"ride_date" => "Data do agendamento",
+			"ride_finish_time" => "Hora de término do agendamento",
+			"ride_data_finish" => "Data de término do agendamento",
+			"ride_origin" => "Endereço em que o serviço foi prestado",
+			"ride_time" => "Duração do atendimento(em minutos)",
+			'provider_address'  => "Endereço do Prestador",
+			'user_address'      => "Endereço do Paciente",
+			'provider_address_number' => "Número residencial do prestador",
+			'user_address_number' => "Número residencial do paciente",
+			'provider_neighborhood'	=> "Bairro do prestador",
+			'user_neighborhood'	=> "Bairro do Paciente",
+			'UF_provider'       => "Estado do prestador",
+			'UF_user'			=> "Estado do Paciente",
+			'provider_professional_document'	=> "Documento do profissional",
+			'provider_city'		=> "Cidade do Prestador",
+			'user_city'			=> "Cidade do usuário",
+			'displacement_fee'  => "taxa de deslocamento",
+			'service_value'  => 'valor dos serviços',
+			'userWhenApproved'	=> "Horário em que o usuário aceitou os termos",
+			'providerWhenApproved' => "Horário em que o prestador aceitou os termos"
 		];
 		$sample = "{}";
 		if(isset($this->sample)) {
@@ -154,6 +183,10 @@ class EmailTemplate extends \Eloquent {
 		}
 		$vars = json_decode($sample, true);
 
-		return array_merge($vars, $commonVars);
+		if ($this->sample === null) {
+			return array_merge($commonVars);
+		} else {
+			return array_merge($vars, $commonVars);
+		}
 	}
 }
