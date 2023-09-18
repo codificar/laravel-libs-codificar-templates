@@ -28,6 +28,11 @@ class TemplateServiceProvider extends ServiceProvider {
 			__DIR__ . '/../images' => public_path('images/'),
 		], 'public_vuejs_libs');
 
+        // Publish the tests files 
+        $this->publishes([
+            __DIR__ . '/../tests/' => base_path('tests/Unit/libs/chat'),
+        ], 'publishes_tests');
+
 		if ($this->app->runningInConsole()) {
 			$this->commands([
 				ResetEmailTemplatesCommand::class,
