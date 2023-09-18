@@ -18,10 +18,11 @@ class EmailTemplate extends \Eloquent
 			if ($emailTemplate = self::getTemplateByKey($key)) {
 				$emailTemplate->send($vars, $emailTo, $subject, $replyTo);
 			} else {
-				Log::error("Template de e-mail inexistente:" . $key);
+				\Log::error("Template Email: " . $emailTemplate);
+				\Log::error("Template de e-mail inexistente:" . $key);
 			}
-		} catch (Exception $e) {
-			\Log::error($e);
+		} catch (\Exception $e) {
+			\Log::error($e->getMessage() . $e->getTraceAsString());
 		}
 		return false;
 	}
@@ -122,7 +123,7 @@ class EmailTemplate extends \Eloquent
 			}
 		}
 
-		return $sample_array;
+		return array_merge($current_sample, $sample_array);
 	}
 
 	/**
@@ -176,8 +177,11 @@ class EmailTemplate extends \Eloquent
 			'userWhenApproved'	=> "Horário em que o usuário aceitou os termos",
 			'providerWhenApproved' => "Horário em que o prestador aceitou os termos"
 		];
-		
-		$vars = json_decode($this->sample, true);
+		$sample = "{}";
+		if(isset($this->sample)) {
+			$sample = $this->sample;
+		}
+		$vars = json_decode($sample, true);
 
 		if ($this->sample === null) {
 			return array_merge($commonVars);
