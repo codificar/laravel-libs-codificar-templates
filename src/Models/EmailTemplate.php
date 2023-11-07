@@ -175,7 +175,10 @@ class EmailTemplate extends \Eloquent
 			'displacement_fee'  => "taxa de deslocamento",
 			'service_value'  => 'valor dos serviços',
 			'userWhenApproved'	=> "Horário em que o usuário aceitou os termos",
-			'providerWhenApproved' => "Horário em que o prestador aceitou os termos"
+			'providerWhenApproved' => "Horário em que o prestador aceitou os termos",
+			'msg_body' => "Seu cadastro está em análise. Entre em contato para maiores esclarecimentos.",
+			'msg_title' => "Cadastro em análise",
+			'panicAlert' => "Verifique o painel de email assim que possível"
 		];
 		$sample = "{}";
 		if(isset($this->sample)) {
