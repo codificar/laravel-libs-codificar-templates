@@ -107,7 +107,7 @@ class EmailTemplate extends \Eloquent
 		preg_match_all('/\$vars\["([^"]+)"\]/', $template->content, $vars);
 
 		if ($template->sample) {
-			$current_sample = json_decode($template->sample);
+			$current_sample = json_decode($template->sample, true);
 		} else {
 			$current_sample = [];
 		}
@@ -115,8 +115,8 @@ class EmailTemplate extends \Eloquent
 		$sample_array = [];
 		foreach ($vars[1] as $var) {
 			if (!in_array($var, $variaveis_fixas)) {
-				if (isset($current_sample->$var)) {
-					$sample_array[$var] = $current_sample->$var;
+				if (isset($current_sample[$var])) {
+					$sample_array[$var] = $current_sample[$var];
 				} else {
 					$sample_array[$var] = "[Undefined Test Variable]";
 				}
@@ -175,7 +175,10 @@ class EmailTemplate extends \Eloquent
 			'displacement_fee'  => "taxa de deslocamento",
 			'service_value'  => 'valor dos serviços',
 			'userWhenApproved'	=> "Horário em que o usuário aceitou os termos",
-			'providerWhenApproved' => "Horário em que o prestador aceitou os termos"
+			'providerWhenApproved' => "Horário em que o prestador aceitou os termos",
+			'msg_body' => "Seu cadastro está em análise. Entre em contato para maiores esclarecimentos.",
+			'msg_title' => "Cadastro em análise",
+			'panicAlert' => "Verifique o painel de email assim que possível"
 		];
 		$sample = "{}";
 		if(isset($this->sample)) {
