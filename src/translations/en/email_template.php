@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'email_template'       => 'Email Template',
+    'new_key'              => 'New Key',
+    'new_key_ex'           => 'New Key (example)',
+    'from'                 => 'From',
+    'from_ex'              => 'From (example)',
+    'key'                  => 'Key',
+    'key_ex'               => 'Key (example)',
+    'copy_emails'          => 'Copy',
+    'subject'              => 'Subject',
+    'subject_ex'          => 'Subject (example)',
+    'fields'               => 'Fields',
+    'field_names'          => 'Field Names',
+    'field_values'         => 'Field Values',
+    'json'                 => 'JSON',
+    'json_error'           => 'JSON Error',
+    'id'                   => 'ID',
+    'actions'              => 'Actions',
+    'not_used'             => 'Not Used',
+    'new'                  => 'New',
+    'edit'                 => 'Edit',
+    'delete'               => 'Delete',
+    'save'                 => 'Save',
+    'cancel'               => 'Cancel',
+    'test'                 => 'Test',
+    'save_change'          => 'Save Changes',
+
+    'list'                 => 'List Email Templates',
+    'home'                 => 'Home',
+    'validate'             => 'Validate',
+
+    'fail'                 => 'There is an error in the template',
+    'success'              => 'No errors in the template',
+    'undefined'            => 'Undefined variable: :variable',
+    'test_successful'      => 'Test Successful',
+];
